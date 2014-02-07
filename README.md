@@ -1,5 +1,4 @@
 ## Klassy.js
-============
 
 A class-y (class-like) way to write JavaScript. Klassy.js emulates the common behaviors of "classical object-oriented" programming languages with classical inheritance. 
 
