@@ -1,4 +1,4 @@
-## Klassy.js
+## klassy.js
 
 A class-y (class-like) way to write JavaScript. Klassy.js emulates the common behaviors of "classical object-oriented" programming languages with classical inheritance. 
 
@@ -28,4 +28,4 @@ foo.parentMethod();
 
 ## License
 
-Klassy is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+klassy.js is released under the [MIT License](http://www.opensource.org/licenses/MIT).
