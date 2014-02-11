@@ -1,6 +1,6 @@
 ## klassy.js
 
-A class-y (class-like) way to write JavaScript. Klassy.js emulates the common behaviors of "classical object-oriented" programming languages with classical inheritance. 
+A class-y (class-like) way to write JavaScript. klassy.js emulates the common behaviors of "classical object-oriented" programming languages with classical inheritance. 
 
 1. It builds constructor functions that _must_ be invoked with `new`
 2. It allows constructors to have the behavior of `extends`
