@@ -9,6 +9,20 @@
     it('returns a constructor', function() {
       expect(window.Klass()).toEqual(jasmine.any(Function));
     });
+
+    describe('the returned constructor', function() {
+      describe('.implements', function() {
+        it('exists as a function', function() {
+          var F = window.Klass();
+          expect(F.implements).toEqual(jasmine.any(Function));
+        });
+      });
+
+      describe('.extends', function() {
+        var F = window.Klass();
+        expect(F.extends).toEqual(jasmine.any(Function));
+      });
+    });
   });
 })();
 
