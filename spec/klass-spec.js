@@ -19,8 +19,10 @@
       });
 
       describe('.extends', function() {
-        var F = window.Klass();
-        expect(F.extends).toEqual(jasmine.any(Function));
+        it('exists as a function', function() {
+          var F = window.Klass();
+          expect(F.extends).toEqual(jasmine.any(Function));
+        });
       });
     });
   });
