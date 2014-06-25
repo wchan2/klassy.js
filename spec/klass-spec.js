@@ -10,18 +10,59 @@
       expect(window.Klass()).toEqual(jasmine.any(Function));
     });
 
-    describe('the returned constructor', function() {
+    describe('the returned constructor when called with an EMPTY object, "{}"', function() {
+      var ReturnedConstructor;
+      beforeEach(function() {
+        ReturnedConstructor = window.Klass();
+      });
+
+      it('throws the: "Invalid call to class function, please use the `new Class` to instantiate an object" error when not called with new', function() {
+        expect(function() { ReturnedConstructor(); }).toThrow("Invalid call to class function, please use the `new Class` to instantiate an object");
+      });
+
+      it('returns an EMPTY object', function() {
+        expect(new ReturnedConstructor()).toEqual({});
+      });
+
       describe('.implements', function() {
         it('exists as a function', function() {
-          var F = window.Klass();
-          expect(F.implements).toEqual(jasmine.any(Function));
+          expect(ReturnedConstructor.implements).toEqual(jasmine.any(Function));
         });
       });
 
       describe('.extends', function() {
         it('exists as a function', function() {
-          var F = window.Klass();
-          expect(F.extends).toEqual(jasmine.any(Function));
+          expect(ReturnedConstructor.extends).toEqual(jasmine.any(Function));
+        });
+      });
+    });
+
+    describe('the returned constructor when called with an NON-EMPTY object', function() {
+      var ReturnedConstructor,
+          klassParams;
+      beforeEach(function() {
+        klassParams = {
+          testInstanceVariable: 'hello',
+          testInstanceMethod: function() {
+            return 'I am an instance method';
+          }
+        };
+        ReturnedConstructor = window.Klass(klassParams);
+      });
+
+      it('throws the: "Invalid call to class function, please use the `new Class` to instantiate an object" error when not called with new', function() {
+        expect(function() { ReturnedConstructor(); }).toThrow("Invalid call to class function, please use the `new Class` to instantiate an object");
+      });
+
+      describe('.implements', function() {
+        it('exists as a function', function() {
+          expect(ReturnedConstructor.implements).toEqual(jasmine.any(Function));
+        });
+      });
+
+      describe('.extends', function() {
+        it('exists as a function', function() {
+          expect(ReturnedConstructor.extends).toEqual(jasmine.any(Function));
         });
       });
     });
