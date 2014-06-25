@@ -10,6 +10,11 @@
       expect(window.Klass()).toEqual(jasmine.any(Function));
     });
 
+    // should throw an error
+    // it('throws?', function() {
+    //   expect(window.Klass('stringgg')).toEqual(jasmine.any(Function));
+    // });
+
     describe('the returned constructor when called with an EMPTY object, "{}"', function() {
       var ReturnedConstructor;
       beforeEach(function() {
@@ -69,41 +74,6 @@
   });
 })();
 
-
-
-// "use strict";
-
-// describe('Klass', function() {
-//   it('is a function', function() {
-//     expect(typeof Klass).toBe('function');
-//   });
-
-//   it('returns a constructor function when called', function() {
-//     var Foo = Klass();
-//     expect(typeof Foo).toBe('function');
-//   });
-
-//   describe('the _constructor_ function that it returns when called', function() {
-//     it('throws an error when called without the `new` keyword: `Invalid call to class function, please use the `new Class` to instantiate an object`', function() {
-//       var FooClass = Klass();
-//       expect(function() { FooClass(); }).toThrow(new Error('Invalid call to class function, please use the `new Class` to instantiate an object'));
-//     });
-//   });
-// });
-
-// describe('The constructor function returned when Klass is invoked with no arguments', function() {
-//   var isEmpty;
-//   beforeEach(function() {
-//     isEmpty = Klassy.isEmpty;
-//   });
-
-//   it('returns a constructor function that creates an empty object', function() {
-//     var FooClass = Klass(),
-//         foo = new FooClass();
-
-//     expect(isEmpty(foo)).toBe(true);
-//   });
-// });
 
 // describe('The constructor function returned when Klass is invoked an empty object', function() {
 //   var isEmpty;
