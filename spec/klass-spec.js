@@ -1,3 +1,19 @@
+;(function() {
+  'use strict';
+
+  describe('Klass', function() {
+    it('exists as a function', function() {
+      expect(window.Klass).toEqual(jasmine.any(Function));
+    });
+
+    it('returns a constructor', function() {
+      expect(window.Klass()).toEqual(jasmine.any(Function));
+    });
+  });
+})();
+
+
+
 // "use strict";
 
 // describe('Klass', function() {
