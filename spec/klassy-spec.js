@@ -82,6 +82,20 @@
           expect(ReturnedConstructor.implements).toEqual(jasmine.any(Function));
         });
 
+        it('accepts an array of method names (strings) as a parameter and checks that the methods are implemented', function() {
+          var methodInKlass = function() {
+            var Class = window.Klass({ testMethod: function() {} }).implements(['testMethod']);
+            new Class();
+          };
+          var methodInExtends = function() {
+            var Class = window.Klass().extends({ testMethod: function() {} }).implements(['testMethod']);
+            new Class();
+          };
+
+          expect(methodInKlass).not.toThrow();
+          expect(methodInExtends).not.toThrow();
+        });
+
         it('throws the error, "ArgumentTypeError in .implements: expected array, got null" when null is received as the parameter', function() {
           expect(function() { ReturnedConstructor.implements(null); }).toThrow('ArgumentTypeError in .implements: expected array, got null');
         });
