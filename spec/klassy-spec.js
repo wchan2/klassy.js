@@ -29,15 +29,32 @@
         expect(new ReturnedConstructor()).toEqual({});
       });
 
-      describe('.implements', function() {
-        it('exists as a function', function() {
-          expect(ReturnedConstructor.implements).toEqual(jasmine.any(Function));
-        });
-      });
-
       describe('.extends', function() {
         it('exists as a function', function() {
           expect(ReturnedConstructor.extends).toEqual(jasmine.any(Function));
+        });
+
+        it('accepts an object as a parameter and copies the objects properties into the object that will be created by invoking the constructor', function() {
+          var props = {
+            test: 'foo',
+            test2: 'bar'
+          };
+          ReturnedConstructor.extends(props);
+          expect(new ReturnedConstructor()).toEqual(props);
+        });
+
+        it('throws the error, "ArgumentTypeError in .extends: expected object, got null" when null is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.extends(null); }).toThrow("ArgumentTypeError in .extends: expected object, got null");
+        });
+
+        it('throws the error, "ArgumentTypeError in .extends: expected object, got string" when a string is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.extends("some string") }).toThrow("ArgumentTypeError in .extends: expected object, got string");
+        });
+      });
+
+      describe('.implements', function() {
+        it('exists as a function', function() {
+          expect(ReturnedConstructor.implements).toEqual(jasmine.any(Function));
         });
       });
     });
