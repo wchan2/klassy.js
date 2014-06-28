@@ -36,25 +36,54 @@
 
         it('accepts an object as a parameter and copies the objects properties into the object that will be created by invoking the constructor', function() {
           var props = {
-            test: 'foo',
-            test2: 'bar'
+            foo: 'foo',
+            bar: 'bar',
+            testFunc: function() {
+              return 'baz';
+            }
           };
           ReturnedConstructor.extends(props);
           expect(new ReturnedConstructor()).toEqual(props);
         });
 
         it('throws the error, "ArgumentTypeError in .extends: expected object, got null" when null is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.extends(null); }).toThrow("ArgumentTypeError in .extends: expected object, got null");
+          expect(function() { ReturnedConstructor.extends(null); }).toThrow('ArgumentTypeError in .extends: expected object, got null');
         });
 
         it('throws the error, "ArgumentTypeError in .extends: expected object, got string" when a string is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.extends("some string") }).toThrow("ArgumentTypeError in .extends: expected object, got string");
+          expect(function() { ReturnedConstructor.extends("some string") }).toThrow('ArgumentTypeError in .extends: expected object, got string');
+        });
+
+        it('throws the error, "ArgumentTypeError in .extends: expected object, got number" when a number is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.extends(3) }).toThrow('ArgumentTypeError in .extends: expected object, got number');
+        });
+
+        it('throws the error, "ArgumentTypeError in .extends: expected object, got boolean" when a boolean is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.extends(true) }).toThrow('ArgumentTypeError in .extends: expected object, got boolean');
+          expect(function() { ReturnedConstructor.extends(false) }).toThrow('ArgumentTypeError in .extends: expected object, got boolean');
         });
       });
 
       describe('.implements', function() {
         it('exists as a function', function() {
           expect(ReturnedConstructor.implements).toEqual(jasmine.any(Function));
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected object, got null" when null is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.implements(null); }).toThrow('ArgumentTypeError in .implements: expected array, got null');
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected object, got string" when string is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.implements('some string'); }).toThrow('ArgumentTypeError in .implements: expected array, got string');
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected object, got number" when number is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.implements(3); }).toThrow('ArgumentTypeError in .implements: expected array, got number');
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected object, got boolean" when boolean is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.implements(true); }).toThrow('ArgumentTypeError in .implements: expected array, got boolean');
+          expect(function() { ReturnedConstructor.implements(false); }).toThrow('ArgumentTypeError in .implements: expected array, got boolean');
         });
       });
     });
@@ -90,55 +119,6 @@
     });
   });
 })();
-
-
-// describe('The constructor function returned when Klass is invoked an empty object', function() {
-//   var isEmpty;
-//   beforeEach(function() {
-//     isEmpty = Klassy.isEmpty;
-//   });
-
-//   it('returns a constructor function that creates an empty object', function() {
-//     var FooClass = Klass({}),
-//         foo = new FooClass();
-
-//     expect(isEmpty(foo)).toBe(true);
-//   });
-// });
-
-// describe('The constructor function returned when Klass is invoked with a _non-empty_ object', function() {
-//   var isEmpty,
-//       FooClass,
-//       foo,
-//       properties;
-
-//   beforeEach(function() {
-//     isEmpty = Klassy.isEmpty;
-//     properties = {
-//       bar: 'baz',
-//       lorem: function() {
-//         return 'ipsum';
-//       }
-//     };
-
-//     FooClass = Klass(properties);
-//     foo = new FooClass();
-//   });
-
-//   it('returns a constructor function that creates a _non-empty_ object', function() {
-//     expect(isEmpty(foo)).toBe(false);
-//   });
-
-//   describe('The object returned when instantiating the constructor function', function() {
-//     it('should have the same properties as the object that was passed into Klass', function() {
-//       expect(foo.bar).toBe(properties.bar);
-//       expect(foo.hasOwnProperty('bar')).toBe(true);
-
-//       expect(foo.lorem).toBe(properties.lorem);
-//       expect(foo.hasOwnProperty('lorem')).toBe(true);
-//     });
-//   });
-// });
 
 // "use strict";
 

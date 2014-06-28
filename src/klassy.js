@@ -26,10 +26,10 @@
     };
     F.extends = function(parentProps) {
       if (typeof parentProps !== 'object') {
-        throw "ArgumentTypeError in .extends: expected object, got " + (typeof parentProps);
+        throw 'ArgumentTypeError in .extends: expected object, got ' + (typeof parentProps);
       }
       if (parentProps === null) {
-        throw "ArgumentTypeError in .extends: expected object, got null";
+        throw 'ArgumentTypeError in .extends: expected object, got null';
       }
       var Parent = function() {};
       Parent.prototype = parentProps;
