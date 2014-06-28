@@ -6,31 +6,44 @@
       expect(window.Klass).toEqual(jasmine.any(Function));
     });
 
-    it('returns a constructor', function() {
-      expect(window.Klass()).toEqual(jasmine.any(Function));
-    });
-
     // should throw an error
     // it('throws?', function() {
     //   expect(window.Klass('stringgg')).toEqual(jasmine.any(Function));
     // });
 
-    describe('the returned constructor when called with an EMPTY object, "{}"', function() {
+    it('returns a constructor', function() {
+      expect(window.Klass()).toEqual(jasmine.any(Function));
+    });
+
+    it('the returned constructor when called with an EMPTY object, "{}" returns an EMPTY object', function() {
+      var ReturnedConstructor = window.Klass();
+      expect(new ReturnedConstructor()).toEqual({});
+    });
+
+    it('the returned constructor when called with an NON-EMPTY object returns an object with the same properties', function() {
+      var ReturnedConstructor,
+          klassParams = {
+            testInstanceVariable: 'hello',
+            testInstanceMethod: function() {
+              return 'I am an instance method';
+            }
+          };
+      ReturnedConstructor = window.Klass(klassParams);
+      expect(new ReturnedConstructor()).toEqual(klassParams);
+    });
+
+    describe('the returned constructor', function() {
       var ReturnedConstructor;
       beforeEach(function() {
         ReturnedConstructor = window.Klass();
       });
-
       it('throws the: "Invalid call to class function, please use the `new Class` to instantiate an object" error when not called with new', function() {
         expect(function() { ReturnedConstructor(); }).toThrow("Invalid call to class function, please use the `new Class` to instantiate an object");
       });
 
-      it('returns an EMPTY object', function() {
-        expect(new ReturnedConstructor()).toEqual({});
-      });
-
       describe('.extends', function() {
         it('exists as a function', function() {
+          var ReturnedConstructor = window.Klass();
           expect(ReturnedConstructor.extends).toEqual(jasmine.any(Function));
         });
 
@@ -51,7 +64,7 @@
         });
 
         it('throws the error, "ArgumentTypeError in .extends: expected object, got string" when a string is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.extends("some string") }).toThrow('ArgumentTypeError in .extends: expected object, got string');
+          expect(function() { ReturnedConstructor.extends('some string') }).toThrow('ArgumentTypeError in .extends: expected object, got string');
         });
 
         it('throws the error, "ArgumentTypeError in .extends: expected object, got number" when a number is received as the parameter', function() {
@@ -84,36 +97,6 @@
         it('throws the error, "ArgumentTypeError in .implements: expected object, got boolean" when boolean is received as the parameter', function() {
           expect(function() { ReturnedConstructor.implements(true); }).toThrow('ArgumentTypeError in .implements: expected array, got boolean');
           expect(function() { ReturnedConstructor.implements(false); }).toThrow('ArgumentTypeError in .implements: expected array, got boolean');
-        });
-      });
-    });
-
-    describe('the returned constructor when called with an NON-EMPTY object', function() {
-      var ReturnedConstructor,
-          klassParams;
-      beforeEach(function() {
-        klassParams = {
-          testInstanceVariable: 'hello',
-          testInstanceMethod: function() {
-            return 'I am an instance method';
-          }
-        };
-        ReturnedConstructor = window.Klass(klassParams);
-      });
-
-      it('throws the: "Invalid call to class function, please use the `new Class` to instantiate an object" error when not called with new', function() {
-        expect(function() { ReturnedConstructor(); }).toThrow("Invalid call to class function, please use the `new Class` to instantiate an object");
-      });
-
-      describe('.implements', function() {
-        it('exists as a function', function() {
-          expect(ReturnedConstructor.implements).toEqual(jasmine.any(Function));
-        });
-      });
-
-      describe('.extends', function() {
-        it('exists as a function', function() {
-          expect(ReturnedConstructor.extends).toEqual(jasmine.any(Function));
         });
       });
     });
@@ -162,25 +145,6 @@
 //     expect(FooClass).toBe(FooClass.extends({ foo: 'bar' }));
 //   });
 // });
-
-// describe('Klassy utility functions', function() {
-//   describe('Klassy.isEmpty', function() {
-//     var isEmpty;
-//     beforeEach(function() {
-//       isEmpty = Klassy.isEmpty;
-//     });
-
-//     it('returns true if passed an empty object', function() {
-//       expect(isEmpty({})).toBe(true);
-//       expect(isEmpty(new Object())).toBe(true);
-//     });
-
-//     it('returns false if passed a non-empty object', function() {
-//       expect(isEmpty({ foo: 'bar' })).toBe(false);
-//     });
-//   });
-// });
-
 
 // "use strict";
 
