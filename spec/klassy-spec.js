@@ -59,6 +59,10 @@
           expect(new ReturnedConstructor()).toEqual(props);
         });
 
+        it('throws the error, "ArgumentTypeError in .extends: expected object, got undefined" when undefined is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.extends(undefined); }).toThrow('ArgumentTypeError in .extends: expected object, got undefined');
+        });
+
         it('throws the error, "ArgumentTypeError in .extends: expected object, got null" when null is received as the parameter', function() {
           expect(function() { ReturnedConstructor.extends(null); }).toThrow('ArgumentTypeError in .extends: expected object, got null');
         });
@@ -94,6 +98,10 @@
 
           expect(methodInKlass).not.toThrow();
           expect(methodInExtends).not.toThrow();
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected array, got undefined" when undefined is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.implements(undefined); }).toThrow('ArgumentTypeError in .implements: expected array, got undefined');
         });
 
         it('throws the error, "ArgumentTypeError in .implements: expected array, got null" when null is received as the parameter', function() {
