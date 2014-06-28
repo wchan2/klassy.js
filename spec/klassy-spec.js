@@ -82,21 +82,25 @@
           expect(ReturnedConstructor.implements).toEqual(jasmine.any(Function));
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected object, got null" when null is received as the parameter', function() {
+        it('throws the error, "ArgumentTypeError in .implements: expected array, got null" when null is received as the parameter', function() {
           expect(function() { ReturnedConstructor.implements(null); }).toThrow('ArgumentTypeError in .implements: expected array, got null');
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected object, got string" when string is received as the parameter', function() {
+        it('throws the error, "ArgumentTypeError in .implements: expected array, got string" when string is received as the parameter', function() {
           expect(function() { ReturnedConstructor.implements('some string'); }).toThrow('ArgumentTypeError in .implements: expected array, got string');
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected object, got number" when number is received as the parameter', function() {
+        it('throws the error, "ArgumentTypeError in .implements: expected array, got number" when number is received as the parameter', function() {
           expect(function() { ReturnedConstructor.implements(3); }).toThrow('ArgumentTypeError in .implements: expected array, got number');
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected object, got boolean" when boolean is received as the parameter', function() {
+        it('throws the error, "ArgumentTypeError in .implements: expected array, got boolean" when boolean is received as the parameter', function() {
           expect(function() { ReturnedConstructor.implements(true); }).toThrow('ArgumentTypeError in .implements: expected array, got boolean');
           expect(function() { ReturnedConstructor.implements(false); }).toThrow('ArgumentTypeError in .implements: expected array, got boolean');
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected array, got boolean" when boolean is received as the parameter', function() {
+          expect(function() { ReturnedConstructor.implements({}); }).toThrow('ArgumentTypeError in .implements: expected array, got object');
         });
       });
     });
