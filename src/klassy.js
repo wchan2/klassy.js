@@ -1,12 +1,12 @@
 ;(function(global) {
   "use strict";
 
+  var hasOwnProp = Object.hasOwnProperty;
+
   var Klass = function(instanceProps) {
     var addInstanceProps,
-        hasOwnProp,
         F;
 
-    hasOwnProp = Object.hasOwnProperty;
     addInstanceProps = function(object) {
       var prop;
       for (prop in instanceProps) {
