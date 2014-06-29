@@ -105,6 +105,20 @@
           expect(methodInExtends).not.toThrow();
         });
 
+        it('throws the error, "ImplementsError: Klass does not implement testMethod" if the returned constructor does not implment a listed method in the array of methods when the constructor is invoked', function() {
+          var methodNotInExtends = function() {
+            var Class = window.Klass().extends({}).implements(['testMethod']);
+            new Class();
+          };
+          var methodNotInKlass = function() {
+            var Class = window.Klass().implements(['testMethod']);
+            new Class();
+          };
+
+          expect(methodNotInKlass).toThrow('ImplementsError: Klass does not implement testMethod');
+          expect(methodNotInExtends).toThrow('ImplementsError: Klass does not implement testMethod');
+        });
+
         it('returns the constructor that it extended allowing it to be chainable', function() {
           var ReturnedConstructor = window.Klass();
           expect(ReturnedConstructor.implements([])).toBe(ReturnedConstructor);
