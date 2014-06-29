@@ -11,6 +11,8 @@
     //   expect(window.Klass('stringgg')).toEqual(jasmine.any(Function));
     // });
 
+    // extend can take a constructor?
+
     it('returns a constructor', function() {
       expect(window.Klass()).toEqual(jasmine.any(Function));
     });
@@ -64,6 +66,19 @@
           expect(ReturnedConstructor.extends({})).toBe(ReturnedConstructor);
         });
 
+        it('takes an object as its parameter and makes it available through prototypal inheritance', function() {
+          var objToExtend = {
+            foo: 'bar',
+            bar: function() {
+              return 'ipsum';
+            }
+          };
+          ReturnedConstructor.extends(objToExtend);
+
+          expect(ReturnedConstructor.prototype.lorem).toBe(objToExtend.lorem);
+          expect(ReturnedConstructor.prototype.bar).toBe(objToExtend.bar);
+        });
+
         it('throws the error, "ArgumentTypeError in .extends: expected object, got undefined" when undefined is received as the parameter', function() {
           expect(function() { ReturnedConstructor.extends(undefined); }).toThrow('ArgumentTypeError in .extends: expected object, got undefined');
         });
@@ -105,7 +120,12 @@
           expect(methodInExtends).not.toThrow();
         });
 
-        it('throws the error, "ImplementsError: Klass does not implement testMethod" if the returned constructor does not implment a listed method in the array of methods when the constructor is invoked', function() {
+        it('returns the constructor that it extended allowing it to be chainable', function() {
+          var ReturnedConstructor = window.Klass();
+          expect(ReturnedConstructor.implements([])).toBe(ReturnedConstructor);
+        });
+
+        it('throws the error, "ImplementsError: Klass does not implement testMethod" if the returned constructor does not implement a listed method in the array of methods when the constructor is invoked', function() {
           var methodNotInExtends = function() {
             var Class = window.Klass().extends({}).implements(['testMethod']);
             new Class();
@@ -117,11 +137,6 @@
 
           expect(methodNotInKlass).toThrow('ImplementsError: Klass does not implement testMethod');
           expect(methodNotInExtends).toThrow('ImplementsError: Klass does not implement testMethod');
-        });
-
-        it('returns the constructor that it extended allowing it to be chainable', function() {
-          var ReturnedConstructor = window.Klass();
-          expect(ReturnedConstructor.implements([])).toBe(ReturnedConstructor);
         });
 
         it('throws the error, "ArgumentTypeError in .implements: expected array, got undefined" when undefined is received as the parameter', function() {
@@ -148,70 +163,32 @@
         it('throws the error, "ArgumentTypeError in .implements: expected array, got boolean" when boolean is received as the parameter', function() {
           expect(function() { ReturnedConstructor.implements({}); }).toThrow('ArgumentTypeError in .implements: expected array, got object');
         });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is an object', function() {
+          expect(function() { ReturnedConstructor.implements([{}]); })
+            .toThrow("ArgumentTypeError in .implements: expected an array of strings");
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is a number', function() {
+          expect(function() { ReturnedConstructor.implements([9]); })
+            .toThrow("ArgumentTypeError in .implements: expected an array of strings");
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is undefined', function() {
+          expect(function() { ReturnedConstructor.implements([undefined]); })
+            .toThrow("ArgumentTypeError in .implements: expected an array of strings");
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is null', function() {
+          expect(function() { ReturnedConstructor.implements([null]); })
+            .toThrow("ArgumentTypeError in .implements: expected an array of strings");
+        });
+
+        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is a boolean', function() {
+          expect(function() { ReturnedConstructor.implements([true]); })
+            .toThrow("ArgumentTypeError in .implements: expected an array of strings");
+        });
       });
     });
   });
 })();
-
-
-//   it('takes an object as its parameter and makes it available through prototypal inheritance', function() {
-//     var objToExtend = {
-//       foo: 'bar',
-//       lorem: function() {
-//         return 'ipsum';
-//       }
-//     };
-//     FooClass.extends(objToExtend);
-
-//     expect(FooClass.prototype.lorem).toBe(objToExtend.lorem);
-//     expect(FooClass.prototype.foo).toBe(objToExtend.foo);
-//   });
-
-//   it('returns the same constructor that it is called on (allowing it to be chainable)', function() {
-//     expect(FooClass).toBe(FooClass.extends({ foo: 'bar' }));
-//   });
-
-// describe('The `implements` method on the constructor function returned from invoking the Klass function', function() {
-//   var FooClass;
-//   beforeEach(function() {
-//     FooClass = Klass({
-//       initialInstanceMethod: function() {}
-//     }).extends({
-//       parentMethod: function() {}
-//     });
-//   });
-
-//     it('throws an ArgumenTypeError when it is _not_ passed a string of functions: `ArgumentTypeError in .implements: expected an array of strings`', function() {
-//       expect(function() { FooClass.implements([function() {}]); }).toThrow('ArgumentTypeError in .implements: expected an array of strings');
-//       expect(function() { FooClass.implements([{}]); }).toThrow('ArgumentTypeError in .implements: expected an array of strings');
-//       expect(function() { FooClass.implements([1]); }).toThrow('ArgumentTypeError in .implements: expected an array of strings');
-//       expect(function() { FooClass.implements([1]); }).toThrow('ArgumentTypeError in .implements: expected an array of strings');
-//     });
-//   });
-  
-//   describe('`implement` method\'s ImplementsErrors', function() {
-//     it('throws an ImplementsError when testing for the implementation of an _instance_ method or an _extended_ method: ', function() {
-//       expect(function() {
-//         FooClass.implements(['testMethod']);
-//       }).toThrow('ImplementsError: Klass does not implement testMethod');
-//     });
-//   });
-
-//   it('takes an array of strings that represent method names and attempt to call the methods', function() {
-//     FooClass.implements(['initialInstanceMethod', 'parentMethod']);
-//     var foo = new FooClass();
-
-//     spyOn(foo,'initialInstanceMethod');
-//     foo.initialInstanceMethod();
-
-//     spyOn(foo, 'parentMethod');
-//     foo.parentMethod();
-
-//     expect(foo.initialInstanceMethod).toHaveBeenCalled();
-//     expect(foo.parentMethod).toHaveBeenCalled();
-//   });
-
-//   it('returns the same constructor that it is called on (allowing it to be chainable)', function() {
-//     expect(FooClass).toBe(FooClass.implements(['parentMethod']));
-//   });
-// });
