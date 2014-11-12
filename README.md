@@ -2,11 +2,11 @@
 
 A class-y (class-like) way to write JavaScript. klassy.js emulates the common behaviors of "classical object-oriented" programming languages with classical inheritance. 
 
-**Note**: this is more of a fun project instead of a practical project.
-
 1. It builds constructor functions that _must_ be invoked with `new`
 2. It allows constructors to have the behavior of `extends`
 3. It forces implementation of an interface
+
+**Note**: this is more of a fun project instead of a practical project.
 
 ## Install Dependencies
 
@@ -49,8 +49,6 @@ foo.parentMethod();
 	grunt test
 
 ## Coming Soon
-
-List of TODOs
 
 - function F should also accept another object that can be used to instantiate its own properties also
 
