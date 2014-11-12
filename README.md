@@ -1,4 +1,4 @@
-## klassy.js
+## klassy.js [![Build Status](https://travis-ci.org/wchan2/klassy.js.png?branch=master)](https://travis-ci.org/wchan2/klassy.js)
 
 A class-y (class-like) way to write JavaScript. klassy.js emulates the common behaviors of "classical object-oriented" programming languages with classical inheritance. 
 
