@@ -10,11 +10,9 @@ A class-y (class-like) way to write JavaScript. klassy.js emulates the common be
 
 ## Install Dependencies
 
-In order to install dependencies for the build and tests, run the following commands in the terminal.
+Installing build and test dependencies.
 
 	npm install
-	grunt jasmine 	# to test
-	grunt build 	# to build
 
 ## Example
 
