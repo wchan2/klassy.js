@@ -17,9 +17,8 @@
     };
 
     F = function() {
-      // TODO: function F should also accept another object that can be used to instantiate its own properties also
       if (!(this instanceof F)) {
-        throw "Invalid call to class function, please use the `new Class` to instantiate an object";
+        throw 'Invalid call to class function, please use the `new Class` to instantiate an object';
       }
       addInstanceProps(this);
       return this;
@@ -64,4 +63,4 @@
   };
 
   global.Klass = global.Klass || Klass;
-})(window);
+}(window));

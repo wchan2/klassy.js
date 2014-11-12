@@ -2,54 +2,55 @@
   'use strict';
 
   describe('Klass', function() {
-    it('exists as a function', function() {
+    it('exists', function() {
       expect(window.Klass).toEqual(jasmine.any(Function));
     });
-
-    // should throw an error
-    // it('throws?', function() {
-    //   expect(window.Klass('stringgg')).toEqual(jasmine.any(Function));
-    // });
-
-    // extend can take a constructor?
 
     it('returns a constructor', function() {
       expect(window.Klass()).toEqual(jasmine.any(Function));
     });
 
-    it('the returned constructor when called with an EMPTY object, "{}" returns an EMPTY object', function() {
-      var ReturnedConstructor = window.Klass();
-      expect(new ReturnedConstructor()).toEqual({});
-    });
-
-    it('the returned constructor when called with an NON-EMPTY object returns an object with the same properties', function() {
-      var ReturnedConstructor,
-          klassParams = {
-            testInstanceVariable: 'hello',
-            testInstanceMethod: function() {
-              return 'I am an instance method';
-            }
-          };
-      ReturnedConstructor = window.Klass(klassParams);
-      expect(new ReturnedConstructor()).toEqual(klassParams);
-    });
-
     describe('the returned constructor', function() {
-      var ReturnedConstructor;
-      beforeEach(function() {
-        ReturnedConstructor = window.Klass();
-      });
-      it('throws the: "Invalid call to class function, please use the `new Class` to instantiate an object" error when not called with new', function() {
-        expect(function() { ReturnedConstructor(); }).toThrow("Invalid call to class function, please use the `new Class` to instantiate an object");
+      it('throws an error when called without the `new` keyword', function() {
+        var ReturnedConstructor = window.Klass();
+        expect(function() { ReturnedConstructor(); }).toThrow();
       });
 
-      describe('.extends', function() {
-        it('exists as a function', function() {
+      it('returns an empty object when called with an empty object', function() {
+        var ReturnedConstructor = window.Klass();
+        expect(new ReturnedConstructor()).toEqual({});
+      });
+
+      it('returns the same object with the same key and values when passed the same object', function() {
+        var ReturnedConstructor, klassParams;
+
+        klassParams = {
+          testInstanceVariable: 'hello',
+          testInstanceMethod: function() {
+            return 'I am an instance method';
+          }
+        };
+        ReturnedConstructor = window.Klass(klassParams);
+        expect(new ReturnedConstructor()).toEqual(klassParams);
+      });
+
+      describe('.extends(<object>)', function() {
+        var ReturnedConstructor;
+        beforeEach(function() {
+          ReturnedConstructor = window.Klass();
+        });
+
+        it('exists', function() {
           var ReturnedConstructor = window.Klass();
           expect(ReturnedConstructor.extends).toEqual(jasmine.any(Function));
         });
 
-        it('accepts an object as a parameter and copies the objects properties into the object that will be created by invoking the constructor', function() {
+        it('is chainable', function() {
+          var ReturnedConstructor = window.Klass();
+          expect(ReturnedConstructor.extends({})).toBe(ReturnedConstructor);
+        });
+
+        it('takes an object as a parameter and copies the object properties to the an object created by the constructor', function() {
           var props = {
             foo: 'foo',
             bar: 'bar',
@@ -61,12 +62,7 @@
           expect(new ReturnedConstructor()).toEqual(props);
         });
 
-        it('returns the constructor that it extended allowing it to be chainable', function() {
-          var ReturnedConstructor = window.Klass();
-          expect(ReturnedConstructor.extends({})).toBe(ReturnedConstructor);
-        });
-
-        it('takes an object as its parameter and makes it available through prototypal inheritance', function() {
+        it('takes an object as a parameter and sets it to its prototype', function() {
           var objToExtend = {
             foo: 'bar',
             bar: function() {
@@ -79,34 +75,39 @@
           expect(ReturnedConstructor.prototype.bar).toBe(objToExtend.bar);
         });
 
-        it('throws the error, "ArgumentTypeError in .extends: expected object, got undefined" when undefined is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.extends(undefined); }).toThrow('ArgumentTypeError in .extends: expected object, got undefined');
+        it('throws the error when passed an undefined as a parameter or no parameter', function() {
+          expect(function() { ReturnedConstructor.extends(undefined); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .extends: expected object, got null" when null is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.extends(null); }).toThrow('ArgumentTypeError in .extends: expected object, got null');
+        it('throws the error when passed null as a parameter', function() {
+          expect(function() { ReturnedConstructor.extends(null); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .extends: expected object, got string" when a string is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.extends('some string') }).toThrow('ArgumentTypeError in .extends: expected object, got string');
+        it('throws the error when passed a string as a parameter', function() {
+          expect(function() { ReturnedConstructor.extends('some string') }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .extends: expected object, got number" when a number is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.extends(3) }).toThrow('ArgumentTypeError in .extends: expected object, got number');
+        it('throws the error when passed a number as a parameter', function() {
+          expect(function() { ReturnedConstructor.extends(3) }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .extends: expected object, got boolean" when a boolean is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.extends(true) }).toThrow('ArgumentTypeError in .extends: expected object, got boolean');
-          expect(function() { ReturnedConstructor.extends(false) }).toThrow('ArgumentTypeError in .extends: expected object, got boolean');
+        it('throws the error when passed a boolean as a parameter', function() {
+          expect(function() { ReturnedConstructor.extends(true) }).toThrow();
+          expect(function() { ReturnedConstructor.extends(false) }).toThrow();
         });
       });
 
-      describe('.implements', function() {
-        it('exists as a function', function() {
+      describe('.implements(<array of strings>)', function() {
+        var ReturnedConstructor;
+        beforeEach(function() {
+          ReturnedConstructor = window.Klass();
+        });
+
+        it('exists', function() {
           expect(ReturnedConstructor.implements).toEqual(jasmine.any(Function));
         });
 
-        it('accepts an array of method names (strings) as a parameter and checks that the methods are implemented', function() {
+        it('takes an array of method names', function() {
           var methodInKlass = function() {
             var Class = window.Klass({ testMethod: function() {} }).implements(['testMethod']);
             new Class();
@@ -120,12 +121,12 @@
           expect(methodInExtends).not.toThrow();
         });
 
-        it('returns the constructor that it extended allowing it to be chainable', function() {
+        it('is chainable', function() {
           var ReturnedConstructor = window.Klass();
           expect(ReturnedConstructor.implements([])).toBe(ReturnedConstructor);
         });
 
-        it('throws the error, "ImplementsError: Klass does not implement testMethod" if the returned constructor does not implement a listed method in the array of methods when the constructor is invoked', function() {
+        it('throws a runtime error during invocation if the returned constructor does not implement methods listed in the array', function() {
           var methodNotInExtends = function() {
             var Class = window.Klass().extends({}).implements(['testMethod']);
             new Class();
@@ -135,58 +136,54 @@
             new Class();
           };
 
-          expect(methodNotInKlass).toThrow('ImplementsError: Klass does not implement testMethod');
-          expect(methodNotInExtends).toThrow('ImplementsError: Klass does not implement testMethod');
+          expect(methodNotInKlass).toThrow();
+          expect(methodNotInExtends).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected array, got undefined" when undefined is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.implements(undefined); }).toThrow('ArgumentTypeError in .implements: expected array, got undefined');
+        it('throws the error when given an undefined value', function() {
+          expect(function() { ReturnedConstructor.implements(undefined); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected array, got null" when null is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.implements(null); }).toThrow('ArgumentTypeError in .implements: expected array, got null');
+        it('throws the error when given a null value', function() {
+          expect(function() { ReturnedConstructor.implements(null); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected array, got string" when string is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.implements('some string'); }).toThrow('ArgumentTypeError in .implements: expected array, got string');
+        it('throws the error when given a string', function() {
+          expect(function() { ReturnedConstructor.implements('some string'); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected array, got number" when number is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.implements(3); }).toThrow('ArgumentTypeError in .implements: expected array, got number');
+        it('throws the error when given a number', function() {
+          expect(function() { ReturnedConstructor.implements(3); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected array, got boolean" when boolean is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.implements(true); }).toThrow('ArgumentTypeError in .implements: expected array, got boolean');
-          expect(function() { ReturnedConstructor.implements(false); }).toThrow('ArgumentTypeError in .implements: expected array, got boolean');
+        it('throws the error when given a boolean', function() {
+          expect(function() { ReturnedConstructor.implements(true); }).toThrow();
+          expect(function() { ReturnedConstructor.implements(false); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected array, got boolean" when boolean is received as the parameter', function() {
-          expect(function() { ReturnedConstructor.implements({}); }).toThrow('ArgumentTypeError in .implements: expected array, got object');
+        it('throws the error when given an object', function() {
+          expect(function() { ReturnedConstructor.implements({}); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is an object', function() {
-          expect(function() { ReturnedConstructor.implements([{}]); })
-            .toThrow("ArgumentTypeError in .implements: expected an array of strings");
+        it('throws the error when given an array with an empty object', function() {
+          expect(function() { ReturnedConstructor.implements([{}]); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is a number', function() {
+        it('throws the error when given an array with a number', function() {
           expect(function() { ReturnedConstructor.implements([9]); })
             .toThrow("ArgumentTypeError in .implements: expected an array of strings");
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is undefined', function() {
-          expect(function() { ReturnedConstructor.implements([undefined]); })
-            .toThrow("ArgumentTypeError in .implements: expected an array of strings");
+        it('throws the error when given an array with an undefined value', function() {
+          expect(function() { ReturnedConstructor.implements([undefined]); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is null', function() {
-          expect(function() { ReturnedConstructor.implements([null]); })
-            .toThrow("ArgumentTypeError in .implements: expected an array of strings");
+        it('throws the error when given an array with a null value', function() {
+          expect(function() { ReturnedConstructor.implements([null]); }).toThrow();
         });
 
-        it('throws the error, "ArgumentTypeError in .implements: expected an array of strings" when an element in the array parameter is a boolean', function() {
-          expect(function() { ReturnedConstructor.implements([true]); })
-            .toThrow("ArgumentTypeError in .implements: expected an array of strings");
+        it('throws the error an array with a boolean value', function() {
+          expect(function() { ReturnedConstructor.implements([true]); }).toThrow();
         });
       });
     });
